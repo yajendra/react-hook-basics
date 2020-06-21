@@ -1,14 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
- 
-function App(){
-    const [data, setData]   = useState({ hits: [] });
-    const [query, setQuery] = useState('redux');
-    const [url, setUrl]     = useState('https://hn.algolia.com/api/v1/search?query=redux');
+
+const useHackerNewsApi = (initialUrl, initialData) => {
+    const [data, setData]   = useState(initialData);
+    const [url, setUrl]     = useState(initialUrl);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError]     = useState(false);
 
-    useEffect(() => {        
+    useEffect(() => {
         const fetchData = async () => {
             setIsError(false);
             setIsLoading(true);
@@ -23,9 +22,15 @@ function App(){
             setIsLoading(false);
         };
  
-        fetchData();
-    
+        fetchData();    
     },[url]);
+
+    return [{ data, isLoading, isError }, setUrl];
+}
+ 
+function App(){
+    const [query, setQuery] = useState('redux');
+    const [{ data, isLoading, isError }, setUrl ] = useHackerNewsApi('https://hn.algolia.com/api/v1/search?query=redux', { hits: [] } );
 
     return(
         <Fragment>
