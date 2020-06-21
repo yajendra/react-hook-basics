@@ -29,7 +29,7 @@ function App(){
 
     return(
         <Fragment>
-            <form onSubmit={(event) =>setUrl(`http://hn.algolia.com/api/v1/search?query=${query}`)} >
+            <form onSubmit={(event) => {setUrl(`http://hn.algolia.com/api/v1/search?query=${query}`); event.preventDefault(); } } >
             <input
                 type="text"
                 value={query}
